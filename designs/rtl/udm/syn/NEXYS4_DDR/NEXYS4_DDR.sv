@@ -147,14 +147,19 @@ BitonicComb bitonic(
 );
 */
 
-BitonicMultiCycle bitonic(
+// BitonicMultiCycle bitonic(
+//     .original_list_i(unsorted_list), 
+//     .sorted_list_o(sorted_list),
+//     .clk_i(clk_gen),
+//     .rst_i(0)
+// );
+
+BitonicPipe bitonic(
     .original_list_i(unsorted_list), 
     .sorted_list_o(sorted_list),
     .clk_i(clk_gen),
     .rst_i(0)
 );
-
-
 
 //////////////////////////////////////////////
 //////////////////////////////////////////////
