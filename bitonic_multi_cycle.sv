@@ -3,12 +3,12 @@
 //////////////////////////////////////////////////////////////////////////////////
 //
 // Create Date: 07.11.2024 16:16:36
-// Module Name: bitonic
+// Module Name: BitonicMultiCycle
 // Author: Kadyrin Vadim 466066, group 4119, 2024
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module Bitonic #(parameter LIST_SIZE = 8, parameter LIST_VALUE_BIT_COUNT = 32) (         
+module BitonicMultiCycle #(parameter LIST_SIZE = 8, parameter LIST_VALUE_BIT_COUNT = 32) (         
     input  [LIST_SIZE-1:0][LIST_VALUE_BIT_COUNT-1:0] original_list_i
     , output [LIST_SIZE-1:0][LIST_VALUE_BIT_COUNT-1:0] sorted_list_o        
     , input clk_i

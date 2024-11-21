@@ -73,8 +73,7 @@ for index in range(0, 8):
  
 print("Hadware Test") 
  
-import udm 
-from udm import * 
+from designs.rtl.udm.sw.udm import * 
  
 udm = udm('COM7', 921600) 
 print("") 
