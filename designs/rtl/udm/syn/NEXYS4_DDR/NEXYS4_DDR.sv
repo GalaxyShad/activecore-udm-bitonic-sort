@@ -137,15 +137,24 @@ logic [31:0] udm_csr_rdata;
 
 logic [7:0][31:0] unsorted_list, sorted_list;
 
-Bitonic bitonic(
+localparam CSR_INPUT_LIST_ADDR  = 32'h00000010;
+localparam CSR_OUTPUT_LIST_ADDR = 32'h00000018;
+
+/*
+BitonicComb bitonic(
+    .original_list_i(unsorted_list), 
+    .sorted_list_o(sorted_list)
+);
+*/
+
+BitonicMultiCycle bitonic(
     .original_list_i(unsorted_list), 
     .sorted_list_o(sorted_list),
     .clk_i(clk_gen),
     .rst_i(0)
 );
 
-localparam CSR_INPUT_LIST_ADDR  = 32'h00000010;
-localparam CSR_OUTPUT_LIST_ADDR = 32'h00000018;
+
 
 //////////////////////////////////////////////
 //////////////////////////////////////////////
