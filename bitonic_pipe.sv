@@ -17,7 +17,7 @@ module BitonicPipe #(parameter LIST_SIZE = 8, parameter LIST_VALUE_BIT_COUNT = 3
 
 // ---------------------------------------------------------- //
 
-function void compare_and_swap(
+function automatic void compare_and_swap(
     inout logic [LIST_VALUE_BIT_COUNT-1:0] a,
     inout logic [LIST_VALUE_BIT_COUNT-1:0] b
 );
@@ -38,22 +38,13 @@ endfunction
 logic [LIST_SIZE-1:0][LIST_VALUE_BIT_COUNT-1:0] bg_stage_input;
 
 logic [LIST_SIZE-1:0][LIST_VALUE_BIT_COUNT-1:0] bg_stage_1;
-logic [LIST_SIZE-1:0][LIST_VALUE_BIT_COUNT-1:0] bg_stage_1_comb;
 
 logic [LIST_SIZE-1:0][LIST_VALUE_BIT_COUNT-1:0] bg_stage_2_1;
-logic [LIST_SIZE-1:0][LIST_VALUE_BIT_COUNT-1:0] bg_stage_2_1_comb;
-
 logic [LIST_SIZE-1:0][LIST_VALUE_BIT_COUNT-1:0] bg_stage_2_2;
-logic [LIST_SIZE-1:0][LIST_VALUE_BIT_COUNT-1:0] bg_stage_2_2_comb;
 
 logic [LIST_SIZE-1:0][LIST_VALUE_BIT_COUNT-1:0] bg_stage_3_1;
-logic [LIST_SIZE-1:0][LIST_VALUE_BIT_COUNT-1:0] bg_stage_3_1_comb;
-
 logic [LIST_SIZE-1:0][LIST_VALUE_BIT_COUNT-1:0] bg_stage_3_2;
-logic [LIST_SIZE-1:0][LIST_VALUE_BIT_COUNT-1:0] bg_stage_3_2_comb;
-
 logic [LIST_SIZE-1:0][LIST_VALUE_BIT_COUNT-1:0] bg_stage_3_3;
-logic [LIST_SIZE-1:0][LIST_VALUE_BIT_COUNT-1:0] bg_stage_3_3_comb;
 
 logic [LIST_SIZE-1:0][LIST_VALUE_BIT_COUNT-1:0] bg_stage_output;
 
@@ -75,16 +66,17 @@ end
 ///////////////////////
 
 // writing to regs
-always @(posedge clk_i) begin
-    bg_stage_1 <= bg_stage_input;
-end
-
+logic [LIST_SIZE-1:0][LIST_VALUE_BIT_COUNT-1:0] bg_stage_1_comb;
 always_comb begin
     bg_stage_1_comb = bg_stage_1;
     compare_and_swap(bg_stage_1_comb[0], bg_stage_1_comb[1]); // # ->
     compare_and_swap(bg_stage_1_comb[3], bg_stage_1_comb[2]); // # <-
     compare_and_swap(bg_stage_1_comb[4], bg_stage_1_comb[5]); // # ->
     compare_and_swap(bg_stage_1_comb[7], bg_stage_1_comb[6]); // # <-
+end
+
+always @(posedge clk_i) begin
+    bg_stage_1 <= bg_stage_input;
 end
 
 // ---------------------------------------------------------- //
@@ -98,6 +90,7 @@ always @(posedge clk_i) begin
     bg_stage_2_1 <= bg_stage_1_comb;
 end
 
+logic [LIST_SIZE-1:0][LIST_VALUE_BIT_COUNT-1:0] bg_stage_2_1_comb;
 always_comb begin
     bg_stage_2_1_comb = bg_stage_2_1;
     compare_and_swap(bg_stage_2_1_comb[0], bg_stage_2_1_comb[2]); // # ->
@@ -115,6 +108,7 @@ always @(posedge clk_i) begin
     bg_stage_2_2 <= bg_stage_2_1_comb;
 end
 
+logic [LIST_SIZE-1:0][LIST_VALUE_BIT_COUNT-1:0] bg_stage_2_2_comb;
 always_comb begin
     bg_stage_2_2_comb = bg_stage_2_2;
     compare_and_swap(bg_stage_2_2_comb[0], bg_stage_2_2_comb[1]); // # ->
@@ -134,6 +128,7 @@ always @(posedge clk_i) begin
     bg_stage_3_1 <= bg_stage_2_2_comb;
 end
 
+logic [LIST_SIZE-1:0][LIST_VALUE_BIT_COUNT-1:0] bg_stage_3_1_comb;
 always_comb begin
     bg_stage_3_1_comb = bg_stage_3_1;
     compare_and_swap(bg_stage_3_1_comb[0], bg_stage_3_1_comb[4]); // # ->
@@ -151,6 +146,7 @@ always @(posedge clk_i) begin
     bg_stage_3_2 <= bg_stage_3_1_comb;
 end
 
+logic [LIST_SIZE-1:0][LIST_VALUE_BIT_COUNT-1:0] bg_stage_3_2_comb;
 always_comb begin
     bg_stage_3_2_comb = bg_stage_3_2;
     compare_and_swap(bg_stage_3_2_comb[0], bg_stage_3_2_comb[2]); // # ->
@@ -168,6 +164,7 @@ always @(posedge clk_i) begin
     bg_stage_3_3 <= bg_stage_3_2_comb;
 end
 
+logic [LIST_SIZE-1:0][LIST_VALUE_BIT_COUNT-1:0] bg_stage_3_3_comb;
 always_comb begin
     bg_stage_3_3_comb = bg_stage_3_3;
     compare_and_swap(bg_stage_3_3_comb[0], bg_stage_3_3_comb[1]); // # ->
