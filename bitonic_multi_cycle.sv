@@ -41,8 +41,16 @@ end
 
 always @* begin    
     case (stage)
+        ///////////////////////
+        // Copy to buffer
+        ///////////////////////
         0: buffer = original_list_i;
             
+        ///////////////////////
+        // STAGE 1
+        ///////////////////////
+
+        // STAGE 1
         1: begin            
             compare_and_swap(buffer[0], buffer[1]); // # -> 
             compare_and_swap(buffer[3], buffer[2]); // # <-            
@@ -50,8 +58,11 @@ always @* begin
             compare_and_swap(buffer[7], buffer[6]); // # <-         
         end
 
+        ///////////////////////
+        // STAGE 1
+        ///////////////////////
 
-        // STAGE 2
+        // STAGE 2.1
         2: begin            
             compare_and_swap(buffer[0], buffer[2]); // # ->
             compare_and_swap(buffer[1], buffer[3]); // # ->            
@@ -59,6 +70,7 @@ always @* begin
             compare_and_swap(buffer[7], buffer[5]); // # <-        
         end
 
+        // STAGE 2.2
         3: begin
             compare_and_swap(buffer[0], buffer[1]); // # ->            
             compare_and_swap(buffer[2], buffer[3]); // # ->
@@ -66,8 +78,11 @@ always @* begin
             compare_and_swap(buffer[7], buffer[6]); // # <- 
         end        
 
+        ///////////////////////
+        // STAGE 3 
+        ///////////////////////
 
-        // STAGE 3        
+        // STAGE 3.1        
         4: begin
             compare_and_swap(buffer[0], buffer[4]); // # ->            
             compare_and_swap(buffer[1], buffer[5]); // # ->
@@ -75,6 +90,7 @@ always @* begin
             compare_and_swap(buffer[3], buffer[7]); // # ->
         end   
 
+        // STAGE 3.2
         5: begin            
             compare_and_swap(buffer[0], buffer[2]); // # ->
             compare_and_swap(buffer[1], buffer[3]); // # ->            
@@ -82,6 +98,7 @@ always @* begin
             compare_and_swap(buffer[5], buffer[7]); // # ->        
         end
 
+        // STAGE 3.3
         6: begin
             compare_and_swap(buffer[0], buffer[1]); // # ->            
             compare_and_swap(buffer[2], buffer[3]); // # ->
@@ -89,6 +106,9 @@ always @* begin
             compare_and_swap(buffer[6], buffer[7]); // # -> 
         end    
 
+        ///////////////////////
+        // Copy to ouput
+        ///////////////////////
         7: begin
             sorted_list_reg = buffer;
         end
